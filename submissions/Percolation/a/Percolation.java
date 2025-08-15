@@ -19,10 +19,10 @@ public class Percolation {
     private void validate(int row, int col) {
         int n = sites.length;
         if (row <= 0 || row > n) {
-            throw new IllegalArgumentException("row " + row + " is not between 0 and " + (n-1));
+            throw new IllegalArgumentException();
         }
         if (col <= 0 || col > n) {
-            throw new IllegalArgumentException("col " + col + " is not between 0 and " + (n-1));
+            throw new IllegalArgumentException();
         }
     }
 
@@ -39,7 +39,7 @@ public class Percolation {
         if (row == 1) {
             uf.union(getIndex(row, col), topIndex);
         }
-        if (col == sites.length) {
+        if (row == sites.length) {
             uf.union(getIndex(row, col), bottomIndex);
         }
 
@@ -69,6 +69,7 @@ public class Percolation {
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
         validate(row, col);
+        if (!isOpen(row, col)) return false;
         return  uf.find(getIndex(row, col)) == uf.find(topIndex);
     }
 

@@ -5,10 +5,10 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
+    private static final double CONFIDANCEE_95 = 1.96;
     private double[] thresholds;
     private int experiments;
     private int size;
-    private static final double CONFIDANCEE_95 = 1.96;
 
     // perform T independent computational experiments on an N-by-N grid
     public PercolationStats(int n, int t) {

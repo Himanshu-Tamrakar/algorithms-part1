@@ -39,7 +39,7 @@ public class Percolation {
         if (row == 1) {
             uf.union(getIndex(row, col), topIndex);
         }
-        if (col == sites.length) {
+        if (row == sites.length) {
             uf.union(getIndex(row, col), bottomIndex);
         }
 

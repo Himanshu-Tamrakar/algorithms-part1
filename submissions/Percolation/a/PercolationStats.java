@@ -8,7 +8,7 @@ public class PercolationStats {
     private double[] thresholds;
     private int experiments;
     private int size;
-    private static final double confidenceE_95 = 1.96;
+    private static final double CONFIDANCEE_95 = 1.96;
 
     // perform T independent computational experiments on an N-by-N grid
     public PercolationStats(int n, int t) {
@@ -37,12 +37,12 @@ public class PercolationStats {
 
     // returns lower bound of the 95% confidence interval
     public double confidenceLo() {
-        return mean() - confidenceE_95*stddev()/Math.sqrt(experiments);
+        return mean() - CONFIDANCEE_95*stddev()/Math.sqrt(experiments);
     }
 
     // returns upper bound of the 95% confidence interval
     public double confidenceHi() {
-        return mean() + confidenceE_95*stddev()/Math.sqrt(experiments);
+        return mean() + CONFIDANCEE_95*stddev()/Math.sqrt(experiments);
     }
 
     private double findPercolationThreshold() {

@@ -59,7 +59,7 @@ public class QuickUnionUF {
 //        fileTest("/home/decimal/personal/algorithms/algorithms/src/UF/largeUF.txt");
 
         int n = StdIn.readInt();
-        QuickFindUF uf = new QuickFindUF(n);
+        QuickUnionUF uf = new QuickUnionUF(n);
         while (!StdIn.isEmpty()) {
             int p = StdIn.readInt();
             int q = StdIn.readInt();
