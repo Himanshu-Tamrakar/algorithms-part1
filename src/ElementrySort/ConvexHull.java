@@ -1,22 +1,28 @@
 /**
- * Graham Scan;
- * Algorithms breakdown
- * How to find point p with the smallest of y coordinate?
- * Sort Point@d by Y_ORDER
+ * Graham Scan – Theory Breakdown
  *
- * How to sort points by polar angle with respect to point p which is p[0]. We have already sorted points by Y_ORDER
- * SORT BY Polar Angle with respect to p[0]
+ * • How to find point p with the smallest y-coordinate?
+ *   - Sort points by Y_ORDER.
  *
- * How to determine p1 -> p2 -> p3 is counterclockwise.
- * User ccw method if < 0 means clockwise, == 0 means collinear, >0 mean counterclockwise
+ * • How to sort points by polar angle with respect to point p (which is p[0])?
+ *   - After sorting by Y_ORDER, sort the points again by polar angle with respect to p[0].
  *
- * Sort efficiently.
- * User Array.sort method; Merge or Quick.
+ * • How to determine whether p1 → p2 → p3 is counterclockwise?
+ *   - Use the ccw method:
+ *       < 0 → clockwise
+ *       = 0 → collinear
+ *       > 0 → counterclockwise
  *
- * How to handle degeneracies(thee or more points on line)
- * First find second extram push And find first fird point which is not colinear. does not matter if thirs is click or counterclock
- * in ccw check for <= case
+ * • How to sort efficiently?
+ *   - Use Array.sort method (internally MergeSort or QuickSort).
+ *
+ * • How to handle degeneracies (three or more points on the same line)?
+ *   - First, find the second extreme point and push it.
+ *   - Then find the first third point that is not collinear.
+ *   - It does not matter if the third point is clockwise or counterclockwise.
+ *   - In ccw, check for <= in such cases.
  */
+
 package ElementrySort;
 
 import edu.princeton.cs.algs4.Point2D;
