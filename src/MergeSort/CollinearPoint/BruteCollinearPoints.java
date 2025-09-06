@@ -17,20 +17,21 @@ public class BruteCollinearPoints {
         if (points == null) throw new java.lang.NullPointerException("null argument to constructor");
         checkNullEntries(points);
         Point[] pointsCopy = Arrays.copyOf(points, points.length);
+        Arrays.sort(pointsCopy);
         checkDuplicatedEntries(pointsCopy);
 
-        for (int i = 0; i < points.length; i++) {
-            for (int j = i+1; j < points.length; j++) {
-                for (int k = j+1; k < points.length; k++) {
-                    for (int l = k+1; l < points.length; l++) {
-                        Point p = points[i];
-                        Point q = points[j];
-                        Point r = points[k];
-                        Point s = points[l];
-                        if (p.slopeTo(q) == p.slopeTo(r) && p.slopeTo(q) == p.slopeTo(s)) {
+        for (int i = 0; i < pointsCopy.length; i++) {
+            for (int j = i+1; j < pointsCopy.length; j++) {
+                for (int k = j+1; k < pointsCopy.length; k++) {
+                    for (int l = k+1; l < pointsCopy.length; l++) {
+                        Point p = pointsCopy[i];
+                        Point q = pointsCopy[j];
+                        Point r = pointsCopy[k];
+                        Point s = pointsCopy[l];
+                        if (p.slopeTo(q) == q.slopeTo(r) && q.slopeTo(r) == r.slopeTo(s)) {
                             LineSegment tempLineSegment = new LineSegment(p, s);
                             if (!lineSegments.contains(tempLineSegment)) {
-                                lineSegments.add(new LineSegment(points[i], points[l]));
+                                lineSegments.add(new LineSegment(pointsCopy[i], pointsCopy[l]));
                             }
                         }
                     }
@@ -71,7 +72,7 @@ public class BruteCollinearPoints {
     public static void main(String[] args) {
 
         // read the n points from a file
-        In in = new In("/home/decimal/personal/algorithms/temp/src/MergeSort/CollinearPoint/input6.txt");
+        In in = new In("/home/decimal/personal/algorithms/temp/src/MergeSort/CollinearPoint/input8.txt");
         int n = in.readInt();
         Point[] points = new Point[n];
         for (int i = 0; i < n; i++) {
@@ -82,8 +83,9 @@ public class BruteCollinearPoints {
 
         // draw the points
         StdDraw.enableDoubleBuffering();
-        StdDraw.setXscale(0, 32768);
-        StdDraw.setYscale(0, 32768);
+        StdDraw.setCanvasSize(1024, 1024);
+        StdDraw.setXscale(0, 16384);
+        StdDraw.setYscale(0, 16384);
         for (Point p : points) {
             p.draw();
         }
