@@ -1,12 +1,11 @@
 package PriorityQueues.EightPuzzle;
 
+
+import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.MinPQ;
 import edu.princeton.cs.algs4.Queue;
 import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.StdOut;
-
-import java.util.HashSet;
-import java.util.Set;
 
 public class Solver {
     private SearchNode lastNode;
@@ -36,7 +35,7 @@ public class Solver {
 
         boolean solved = false;
         boolean twinSolved = false;
-        //System.out.println("Get Board: " + searchNodes.delMin().getBoard());
+        // System.out.println("Get Board: " + searchNodes.delMin().getBoard());
         SearchNode current = null;
 
         while (!solved && !twinSolved) {
@@ -56,7 +55,7 @@ public class Solver {
             for (Board b : twinTemp.neighbors())
                 twinNeighbors.enqueue(b);
 
-            while(neighbors.size() > 0) {
+            while (neighbors.size() > 0) {
                 Board board = neighbors.dequeue();
                 int move = current.getMoves();
                 move++;
@@ -64,11 +63,11 @@ public class Solver {
                     continue;
 
                 SearchNode neighborNode = new SearchNode(board, move, current);
-                //System.out.println("Priorities " + neighborNode.getPriority());
+                // System.out.println("Priorities " + neighborNode.getPriority());
                 searchNodes.insert(neighborNode);
             }
 
-            while(twinNeighbors.size() > 0) {
+            while (twinNeighbors.size() > 0) {
                 Board board = twinNeighbors.dequeue();
                 int twinMove = current.getMoves();
                 twinMove++;
@@ -104,13 +103,13 @@ public class Solver {
     // sequence of boards in a shortest solution; null if unsolvable
     public Iterable<Board> solution() {
         Stack<Board> boards = new Stack<Board>();
-        SearchNode lastNode = this.lastNode;
+        SearchNode node = this.lastNode;
         if (isSolvable()) {
-            while (lastNode.getPredecessor() != null) {
-                boards.push(lastNode.getBoard());
-                lastNode = lastNode.getPredecessor();
+            while (node.getPredecessor() != null) {
+                boards.push(node.getBoard());
+                node = node.getPredecessor();
             }
-            boards.push(lastNode.getBoard());
+            boards.push(node.getBoard());
             return boards;
         }
         return null;
@@ -153,27 +152,27 @@ public class Solver {
     }
     // test client (see below)
     public static void main(String[] args) {
-//        int[][] puzzle = {
-//                {0,  1,  3},
-//                {4,  2,  5},
-//                {7,  8,  6}
-//        };
 
-        int[][] puzzle = {
-                {1,  2,  3},
-                {4,  5,  6},
-                {8,  7,  0}
+        // create initial board from file
+        In in = new In(args[0]);
+        int n = in.readInt();
+        int[][] tiles = new int[n][n];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                tiles[i][j] = in.readInt();
+        Board initial = new Board(tiles);
 
-        };
+        // solve the puzzle
+        Solver solver = new Solver(initial);
 
-        Board board = new Board(puzzle);
-
-        Solver solver = new Solver(board);
-//        for (Board solution: solver.solution()) {
-//            StdOut.println(solution);
-//        }
-        StdOut.println("Can Solve: " + solver.isSolvable());
-        StdOut.println("Moves: " + solver.moves());
+        // print solution to standard output
+        if (!solver.isSolvable())
+            StdOut.println("No solution possible");
+        else {
+            StdOut.println("Minimum number of moves = " + solver.moves());
+            for (Board board : solver.solution())
+                StdOut.println(board);
+        }
     }
 
 }

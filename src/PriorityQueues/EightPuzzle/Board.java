@@ -5,7 +5,8 @@ import edu.princeton.cs.algs4.StdOut;
 import java.util.ArrayList;
 
 public class Board {
-    private final int[][] tiles;
+    private int[][] tiles;
+
     public Board(int[][] tiles) {
         this.tiles = tiles;
     }
@@ -53,7 +54,7 @@ public class Board {
                 if (tiles[i][j] == 0) continue;
                 if (tiles[i][j] != n * i + j + 1) {
                     int item = tiles[i][j] - 1;
-                    int shouldBeInX = Math.abs( item / n );
+                    int shouldBeInX = Math.abs(item / n);
                     int shouldBeInY = Math.abs((item % n));
 
                     count += Math.abs(i - shouldBeInX);
@@ -88,7 +89,7 @@ public class Board {
         if (that.dimension() != this.dimension())
             return false;
 
-        for (int i = 0; i < tiles.length; i ++) {
+        for (int i = 0; i < tiles.length; i++) {
             for (int j = 0; j < tiles.length; j++)
                 if (this.tiles[i][j] != that.tiles[i][j])
                     return false;
@@ -177,23 +178,11 @@ public class Board {
 
 
     public static void main(String[] args) {
-//        int[][] puzzle = {
-//                {0, 1, 3},
-//                {4, 2, 5},
-//                {7, 8, 6}
-//        };
-
         int[][] puzzle = {
                 {8, 1, 3},
                 {4, 0, 2},
                 {7, 6, 5}
         };
-
-//        int[][] puzzle = {
-//                {1, 2, 3},
-//                {4, 5, 6},
-//                {7, 8, 0}
-//        };
 
         Board board = new Board(puzzle);
         StdOut.println(board);
@@ -201,7 +190,7 @@ public class Board {
         StdOut.println(board.manhattan());
         StdOut.println(board.isGoal());
 
-        for(Board b : board.neighbors() ) {
+        for (Board b : board.neighbors()) {
             System.out.println(b);
         }
     }
