@@ -50,6 +50,8 @@ public class IsBST {
 
         System.out.println(tree.isBST());
 
+
+
     }
 }
 
