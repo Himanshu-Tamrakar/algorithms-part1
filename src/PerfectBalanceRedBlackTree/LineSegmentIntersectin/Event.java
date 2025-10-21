@@ -45,10 +45,6 @@ public class Event implements Comparable<Event> {
         return 0;
     }
 
-
-
-
-
     @Override
     public String toString() {
         return String.format("Event(%d, %d, %s, %s)", x, y, segment, type);
