@@ -1,4 +1,4 @@
-package DirectedGraph.WordNet;
+
 
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
@@ -112,13 +112,6 @@ public class WordNet {
             outcome = outcome.concat(t + " ");
         }
         return outcome;
-    }
-
-    public static void main(String[] args) {
-        String s1 = "/home/decimal/personal/algorithms/temp/src/DirectedGraph/WordNet/synsets.txt";
-        String s2 = "/home/decimal/personal/algorithms/temp/src/DirectedGraph/WordNet/hypernyms.txt";
-        WordNet wordNet = new WordNet(s1, s2);
-        System.out.println("End");
     }
 
 }
