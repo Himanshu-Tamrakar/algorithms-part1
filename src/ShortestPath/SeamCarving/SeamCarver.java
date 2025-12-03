@@ -78,8 +78,8 @@ public class SeamCarver {
             }
 
             for (int y = 0; y < picture.height(); y++) {
-                relaxH(x, y, prevDistTo, y-1, energyAll[y][x]);
                 relaxH(x, y, prevDistTo, y, energyAll[y][x]);
+                relaxH(x, y, prevDistTo, y-1, energyAll[y][x]);
                 relaxH(x, y, prevDistTo, y+1, energyAll[y][x]);
             }
 
@@ -131,9 +131,8 @@ public class SeamCarver {
                 distTo[x] = Double.POSITIVE_INFINITY;
             }
             for (int x = 0; x < picture.width(); x++) { // columns or width
-
-                relaxV(x, y, prevDistTo, x-1, energyAll[y][x]); // prevDistTo means previous row(height) and x-1 means previous column
                 relaxV(x, y, prevDistTo, x, energyAll[y][x]); // prevDistTo means previous row(height) and x means same column
+                relaxV(x, y, prevDistTo, x-1, energyAll[y][x]); // prevDistTo means previous row(height) and x-1 means previous column
                 relaxV(x, y, prevDistTo, x+1, energyAll[y][x]); // prevDistTo means previous row(height) and x+1 means next column
 
             }
@@ -180,10 +179,12 @@ public class SeamCarver {
 
     // remove horizontal seam from current picture
     public void removeHorizontalSeam(int[] seam) {
-        if (seam == null) throw new IllegalArgumentException();
-        if (seam.length > picture.width()) throw new IllegalArgumentException();
-        if (picture.height() <= 1) throw new IllegalArgumentException();
-
+        if (seam == null) {
+            throw new IllegalArgumentException("argument array is null");
+        }
+        if (picture.height() <= 1 || seam.length != picture.width()) {
+            throw new IllegalArgumentException("height not valid");
+        }
         for (int i = 0; i < seam.length; i++) {
             if (seam[i] < 0 || seam[i] > picture.height() - 1) {
                 throw new IllegalArgumentException("out of range");
@@ -193,25 +194,30 @@ public class SeamCarver {
             }
         }
 
-        Picture carvedPicture = new Picture(picture.width(), picture.height()-1);
-        for (int x = 0; x < picture.width(); x++) {
-            int skipHorizontalSeam = seam[x];
-            for (int y = 0; y < picture.height()-1; y++) {
-                if (y != skipHorizontalSeam) {
-                    carvedPicture.set(x, y, picture.get(x, y));
-                }
+        Picture pic = new Picture(picture.width(), picture.height() - 1);
+        int k = 0;
+        for (int i = 0; i < seam.length; i++) {
+            for (int j = 0; j < seam[i]; j++) {
+                pic.set(i, k, picture.get(i, j));
+                k++;
             }
+            for (int j = seam[i] + 1; j < picture.height(); j++) {
+                pic.set(i, k, picture.get(i, j));
+                k++;
+            }
+            k = 0;
         }
-
-        picture = carvedPicture;
+        picture = pic;
     }
 
     // remove vertical seam from current picture
     public void removeVerticalSeam(int[] seam) {
-        if (seam == null) throw new IllegalArgumentException();
-        if (seam.length > picture.height()) throw new IllegalArgumentException();
-        if (picture.width() <= 1) throw new IllegalArgumentException();
-
+        if (seam == null) {
+            throw new IllegalArgumentException("argument array is null");
+        }
+        if (picture.width() <= 1 || seam.length != picture.height()) {
+            throw new IllegalArgumentException("width not valid");
+        }
         for (int i = 0; i < seam.length; i++) {
             if (seam[i] < 0 || seam[i] > picture.width() - 1) {
                 throw new IllegalArgumentException("out of range");
@@ -221,16 +227,20 @@ public class SeamCarver {
             }
         }
 
-        Picture carvedPicture = new Picture(picture.width()-1, picture.height());
-        for (int y = 0; y < picture.height(); y++) {
-            int skipVerticalSeam = seam[y];
-            for (int x = 0; x < picture.width()-1; x++) {
-                if (x != skipVerticalSeam) {
-                    carvedPicture.set(x, y, picture.get(x, y));
-                }
+        Picture pic = new Picture(picture.width() - 1, picture.height());
+        int k = 0;
+        for (int i = 0; i < seam.length; i++) {
+            for (int j = 0; j < seam[i]; j++) {
+                pic.set(k, i, picture.get(j, i));
+                k++;
             }
+            for (int j = seam[i] + 1; j < picture.width(); j++) {
+                pic.set(k, i, picture.get(j, i));
+                k++;
+            }
+            k = 0;
         }
-        picture = carvedPicture;
+        picture = pic;
 
     }
 
