@@ -131,6 +131,7 @@ public class BaseballElimination {
 
         // Building Graph from source to game vertices to team vertices to target vertex
         int startGameVertices = n-1; // Game vertices starting from
+        totalRemainingGames = 0;
         for (int i = 0; i < n; i++) {
             if (i == teams.get(team)) continue; // exclude for x team from row
 
