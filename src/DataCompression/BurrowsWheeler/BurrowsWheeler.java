@@ -4,23 +4,26 @@ import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
 
 public class BurrowsWheeler {
+
     private static final int R = 256;
+
     // apply Burrows-Wheeler transform,
     // reading from standard input and writing to standard output
     public static void transform() {
         String s = BinaryStdIn.readString();
-        CircularSuffixArray circularSuffixArray = new CircularSuffixArray(s);
-        int n = circularSuffixArray.length();
+        CircularSuffixArray suffixArray = new CircularSuffixArray(s);
+        int n = suffixArray.length();
         for (int i = 0; i < n; i++) {
-            if (circularSuffixArray.index(i) == 0) BinaryStdOut.write(i); // Print the which index in sorted suffix array has original string
+            if (suffixArray.index(i) == 0) {
+                BinaryStdOut.write(i);
+            }
         }
-
         for (int i = 0; i < n; i++) {
-            int j = circularSuffixArray.index(i);
-            if (j-1 > 0) {
-                BinaryStdOut.write(s.charAt(j-1));
+            int j = suffixArray.index(i);
+            if (j - 1 >= 0) {
+                BinaryStdOut.write(s.charAt(j - 1));
             } else {
-                BinaryStdOut.write(s.charAt(n-1));
+                BinaryStdOut.write(s.charAt(n - 1));
             }
         }
         BinaryStdOut.close();
@@ -59,4 +62,5 @@ public class BurrowsWheeler {
         else if (args[0].equals("+")) inverseTransform();
         else throw new IllegalArgumentException("Illegal command line argument");
     }
+
 }

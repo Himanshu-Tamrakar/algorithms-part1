@@ -2,52 +2,58 @@ package DataCompression.BurrowsWheeler;
 
 import edu.princeton.cs.algs4.BinaryStdIn;
 import edu.princeton.cs.algs4.BinaryStdOut;
-import edu.princeton.cs.algs4.RedBlackBST;
 
 public class MoveToFront {
-    private static final int R = 256;
+
+    private final static int R = 256;
+
+    // apply move-to-front encoding, reading from standard input and writing to standard output
     public static void encode() {
-        RedBlackBST<Integer, Character> st = new RedBlackBST<>();
-        int[] map = new int[R]; // It is mapping of character to integer value
-        for (int i = 0; i < R; i++) {
-            st.put(i, (char)i);
-            map[i] = i;
+        char[] arr = new char[R];
+        for (char i = 0; i < R; i++) {
+            arr[i] = i;
         }
-
+        int i;
         while (!BinaryStdIn.isEmpty()) {
-            int c = BinaryStdIn.readChar();
-            int key = map[c]; // current integer representation of character
-            BinaryStdOut.write((char )st.rank(key));
-            st.delete(key);
-            map[c] = st.min()-1;
-            st.put(map[c], (char) c);
+            char c = BinaryStdIn.readChar();
+            for (i = 0; i < R; i++) {
+                if (c == arr[i]) {
+                    break;
+                }
+            }
+            BinaryStdOut.write((char) i);
+            for (int j = i; j > 0; j--) {
+                arr[j] = arr[j - 1];
+            }
+            arr[0] = c;
         }
-
         BinaryStdOut.close();
     }
 
+    // apply move-to-front decoding, reading from standard input and writing to standard output
     public static void decode() {
-        RedBlackBST<Integer, Character> st = new RedBlackBST<>();
-        for (int i = 0; i < R; i++) {
-            st.put(i, (char)i);
+        char[] arr = new char[R];
+        for (char i = 0; i < R; i++) {
+            arr[i] = i;
         }
-
         while (!BinaryStdIn.isEmpty()) {
-            int i = BinaryStdIn.readInt();
-            int key = st.select(i);
-            char ch = st.get(key);
-            BinaryStdOut.write(ch);
-            int k = st.min()-1;
-            st.delete(key);
-            st.put(k, ch);
+            int x = BinaryStdIn.readChar();
+            char c = arr[x];
+            BinaryStdOut.write(c);
+            for (int j = x; j > 0; j--) {
+                arr[j] = arr[j - 1];
+            }
+            arr[0] = c;
         }
         BinaryStdOut.close();
-
     }
 
+    // if args[0] is "-", apply move-to-front encoding
+    // if args[0] is "+", apply move-to-front decoding
     public static void main(String[] args) {
-        if (args[0].equals( "-")) encode();
+        if (args[0].equals("-")) encode();
         else if (args[0].equals("+")) decode();
-        else throw new IllegalArgumentException("");
+        else throw new IllegalArgumentException("Illegal command line argument");
     }
+
 }
